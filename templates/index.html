@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BuildSmart</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+
+<body>
+
+<header class="app-header">
+  <div class="header-content">
+    <div class="logo">
+      <div class="logo-box">
+        <iconify-icon icon="lucide:hard-hat"></iconify-icon>
+      </div>
+      BuildSmart
+    </div>
+
+    <nav>
+      <a href="#input">Input</a>
+      <a href="#results">Dashboard</a>
+      <a href="#">History</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ INPUT SIDEBAR ============ -->
+<section class="sidebar" id="input">
+  <div class="card">
+    <h2>Project Details</h2>
+    <p class="subtext">Define your construction parameters.</p>
+
+    <form id="analysisForm" enctype="multipart/form-data">
+
+      <div class="form-group">
+        <label>Land Image</label>
+        <input type="file" id="land_image" accept="image/*" required hidden>
+
+        <label for="land_image" class="image-preview" id="imagePreview">
+          <iconify-icon icon="lucide:upload-cloud"></iconify-icon>
+          <span>Click to upload image</span>
+        </label>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Area (sq yd)</label>
+          <input type="number" id="area" placeholder="1500" required>
+        </div>
+
+        <div class="form-group">
+          <label>Floors</label>
+          <input type="text" id="floors" placeholder="e.g. G+2" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Building Type</label>
+        <select id="buildingType">
+          <option>Residential</option>
+          <option>Commercial</option>
+          <option>Duplex</option>
+          <option>Apartment</option>
+          <option>Villa</option>
+          <option>Office</option>
+        </select>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Budget (Optional)</label>
+          <input type="number" id="budget" placeholder="Optional">
+        </div>
+
+        <div class="form-group">
+          <label>Days (Optional)</label>
+          <input type="number" id="days" placeholder="e.g. 90">
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="form-group">
+          <label>Latitude</label>
+          <input type="text" id="latitude" placeholder="12.97" required>
+        </div>
+
+        <div class="form-group">
+          <label>Longitude</label>
+          <input type="text" id="longitude" placeholder="77.59" required>
+        </div>
+
+      </div>
+      <!-- ===== Room Requirements ===== -->
+<div class="form-group">
+  <label><b>Room Requirements</b></label>
+</div>
+
+<div class="grid-2">
+  <div class="form-group">
+    <label>Bedrooms</label>
+    <input type="number" id="bedrooms" placeholder="e.g. 2" required>
+  </div>
+
+  <div class="form-group">
+    <label>Bathrooms</label>
+    <input type="number" id="bathrooms" placeholder="e.g. 2" required>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="form-group">
+    <label>Kitchen</label>
+    <input type="number" id="kitchen" placeholder="e.g. 1" required>
+  </div>
+
+  <div class="form-group">
+    <label>Hall / Living Room</label>
+    <input type="number" id="hall" placeholder="e.g. 1" required>
+  </div>
+</div>
+
+
+      <button type="submit" class="btn-primary">
+        <iconify-icon icon="lucide:sparkles"></iconify-icon>
+        Generate Plan
+      </button>
+    </form>
+  </div>
+</section>
+
+<!-- ============ RESULTS DASHBOARD ============ -->
+<section id="results">
+  <div class="card">
+
+    <div class="results-header">
+      <div>
+        <h2>Analysis Results</h2>
+        <p class="subtext">AI-generated estimates and timeline.</p>
+      </div>
+
+      <button id="downloadPdf" class="btn-secondary">
+        <iconify-icon icon="lucide:download"></iconify-icon>
+        Export PDF
+      </button>
+    </div>
+
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <h3><iconify-icon icon="lucide:clock"></iconify-icon> Timeline</h3>
+        <p id="timeline">--</p>
+      </div>
+
+      <div class="metric-card">
+        <h3><iconify-icon icon="lucide:indian-rupee"></iconify-icon> Est. Budget</h3>
+        <p id="estimatedBudget">--</p>
+      </div>
+
+      <div class="metric-card">
+        <h3><iconify-icon icon="lucide:users"></iconify-icon> Workers</h3>
+        <p id="workers">--</p>
+      </div>
+
+      <div class="metric-card">
+        <h3><iconify-icon icon="lucide:ruler"></iconify-icon> Cost / sq yd</h3>
+        <p id="costPerYard">--</p>
+      </div>
+    </div>
+
+    <div class="filter-bar">
+      <button data-view="weekly">Weekly Plan</button>
+      <button data-view="monthly">Monthly Plan</button>
+      <button data-view="budget">Cost Breakdown</button>
+      <button data-view="workers">Workforce</button>
+      <button data-view="materials">Materials</button>
+      <button data-view="assumptions">AI Notes</button>
+      <button data-view="blueprint">Blueprint</button>
+
+    </div>
+
+    <div id="resultsPanel" class="results-panel">
+      <div class="empty-state">
+        <iconify-icon icon="lucide:bar-chart-3"></iconify-icon>
+        <p>Fill out the form and click "Generate Plan" to see insights.</p>
+      </div>
+       <div id="blueprintSection" style="display:none; margin-top:20px;">
+          <h3>Generated Blueprint</h3>
+          <img id="blueprintImage" style="width:100%; max-width:500px; border:1px solid #ccc; border-radius:10px;">
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- Chatbot -->
+<!-- ===== Chatbot ===== -->
+<div class="chatbot">
+
+  <div id="chatWindow" class="chat-hidden">
+    <div class="chat-header">AI Construction Assistant</div>
+
+    <div id="chatMessages" class="chat-messages">
+      <div class="bot-msg">Hello! Ask me anything about your construction plan.</div>
+    </div>
+
+    <div class="chat-input-area">
+      <input type="text" id="chatInput" placeholder="Type your question and press Enter..." />
+    </div>
+  </div>
+
+  <button id="chatToggle" class="chat-toggle-btn">💬</button>
+</div>
+
+
+<script src="/static/script.js"></script>
+</body>
+</html>
